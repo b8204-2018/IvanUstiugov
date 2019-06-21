@@ -1,9 +1,8 @@
 ﻿#include <iostream>
 #include <vector>
 #include <fstream>
+#include <cstring>
 #include <string>
-
-
 
 
 class ReadTask {
@@ -15,81 +14,98 @@ public:
     std::string str;
     std::getline (dataFile, str);
     if (str != "\0") {
-    vec. push_back (str);
+      vec. push_back (str);
+    }
   }
- }
   return vec;
   }
 };
 
 class DecideTask {
-private:
-  std::vector <std::string> typeTasks = {"^", "+", "-", "*", "/"};
+  private:
+  std:: string typeTasks = "^+-*/";
+  int (DecideTask:: *meths [5]) (std:: string *) = {&DecideTask:: degree, &DecideTask:: amount, &DecideTask:: subtraction, &DecideTask:: multiplication, &DecideTask:: division};
+  int degree (std:: string *task) { 
+  return 0; 
+  }
+  int amount (std:: string *task) {
+  int item1 = stoi (task [0]);
+  int item2 = stoi (task [2]);
+  int result = item1 + item2;
+
+  return result;
+
+  }
+  int subtraction (std:: string *task) {
+  int item1 = stoi (task [0]);
+  int item2 = stoi (task [2]);
+  int result = item1 - item2;
+
+  return result;
+
+  }
+  int multiplication (std:: string *task) {
+  int item1 = stoi (task [0]);
+  int item2 = stoi (task [2]);
+  int result = item1 * item2;
+
+  return result;
+
+  }
+
+
+  int division (std:: string *task) {
+  int item1 = stoi (task [0]);
+  int item2 = stoi (task [2]);
+  int result = item1 / item2;
+
+  return result;
+
+  }
+
 public:
-  bool checkTypeTask (std:: string typeTask, std:: string task) {
-    if (typeTask != task) {
-      return false;
-    }
+  int selectNumberTypeTask (std:: string &strNumberTypeTask) {
+  int numberTypeTask = stoi (strNumberTypeTask);
+
+  return numberTypeTask - 1;
+
+  }
+  bool checkTypeTask (int numberTask, std:: string &strTask) {
+  char task = strTask [1];
+  char typeTask = this -> typeTasks [numberTask];
+  if (typeTask == task) {
     return true;
   }
-  std:: string selectTypeTask (std::string numberTypeTask) {
-    int numTask = stoi (numberTypeTask);
-    std:: string typeTask = this -> typeTasks [numTask - 1];
-  
-    return typeTask;
-  }
-  int amount (std:: vector <int> task) {
-    int result = task [0] + task [1];
-  
-    return result;
-  }
-  int difference (std:: vector <int> task) {
-    int result = task [0] - task [1];
-  
-    return result;
-  }
-  int multiplication (std:: vector <int> task) {
-    int result = task [0] * task [1];
-  
-    return result;
-  }
-  int division (std:: vector <int> task) {
-    int result = task [0] / task [1];
-    return result;
-  }
-  std:: vector <int> convert (std:: vector <std::string> vec) {
-    std:: vector <int> task;
-    int tmp;
-    tmp = stoi (vec [0]);
-    task. push_back (tmp);
-    tmp = stoi (vec [2]);
-    task. push_back (tmp);
 
-    return task;
-  }
-  int print (std:: string message) {
-    std:: cout << "\n" << message << "\n";
+  return false;
 
+  }
+  int print (std:: string msg) {
+  std:: cout << "\n" << msg << "\n";
+
+  return 0;
+
+  }
+  int run (std:: vector <std:: string> &vec) {
+  int numberTypeTask = this -> selectNumberTypeTask (vec [0]);
+  if (this -> checkTypeTask (numberTypeTask, vec [1]) == false) {
+    this -> print ("Ошибка! Тип примера не верен!");
+
+    return 1;
+
+  }
     return 0;
-  }
-  int run (std:: vector <std:: string> vec) {
-    std::string numberTypeTask = this -> selectTypeTask (vec [0]);
-    this -> print ("");
-    if (this -> checkTypeTask (numberTypeTask, vec [1]) == false) {
-      this -> print ("Ошибка! Номер задачи неверен!");
 
-      return 0;
-    }
-    this -> print (vec [1]);
   }
+
+
 };
 
 int main () {
   ReadTask readTask;
   DecideTask decideTask;
-  std::vector <std::string> vec = readTask. read ("./task.txt");
+  std:: vector <std:: string> vec = readTask. read ("./task.txt");
   decideTask. run (vec);
 
   return 0;
-
 }
