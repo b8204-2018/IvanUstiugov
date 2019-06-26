@@ -6,7 +6,7 @@
 
 class Sorts {
   public:
-    virtual int sort (std::vector <int> &vec) = 0;
+    virtual int sort (std::vector <int> &vec) =0;
 };
 
 
@@ -28,7 +28,9 @@ void sort (std:: vector <int> &vec) override {
         int t = vec [i];
 
         vec [i] = vec [i + 1];
+
         vec [i + 1] = t;
+
 
         flag = 1;
       }
@@ -77,10 +79,13 @@ std::vector <int> createReadVector (std:: string path) {
 
 }
 
+int (ShekerSort:: *f) (std:: vector <int> &) = &ShekerSort:: sort;
+
 int main () {
   std:: vector <int> vec = createReadVector ("./data/input.txt");
 
   ShekerSort shekerSort;
+  f (vec);
   shekerSort. sort (vec);
   print (vec);
 
