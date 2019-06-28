@@ -126,7 +126,7 @@ public:
 int main () {
   ReaderTask readerTask;
   DecideTask decideTask;
-  std:: vector <std:: string> vec = readerTask. read ("./data/task.txt");
+  std:: vector <std:: string> vec = readerTask. read ("./task.txt");
   decideTask. run (vec);
 
   return 0;
