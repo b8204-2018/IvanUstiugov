@@ -5,7 +5,7 @@
 
 class Reader {
   public:
-    virtual void read (void) =0;
+    virtual void read (void) = 0;
 };
 
 class ReaderTask : Reader {
@@ -24,7 +24,20 @@ public:
   }
 };
 
-class DecideTask {
+class Decider {
+private:
+  void degree (void) = 0;
+  void amount (void) = 0;
+  void subtraction (void) = 0;
+  void multiplication (void) = 0;
+  void division (void) = 0;
+public:
+  void selectNumberTypeTask (void) = 0;
+  void checkTypeTask (void) = 0;
+  void run (void);
+};
+
+class DecideTask : public Decider{
 private:
   std:: string typeTasks = "^+-*/";
   int degree (std:: string *task) { return 0; }
@@ -41,10 +54,11 @@ private:
   int item1 = stoi (task [0]);
   int item2 = stoi (task [2]);
   int result = item1 - item2;
- 
+
   return result;
 
   }
+
 
   int multiplication (std:: string *task) {
   int item1 = stoi (task [0]);
@@ -64,6 +78,7 @@ private:
 
   }
 
+
 public:
   int selectNumberTypeTask (std:: string &strNumberTypeTask) {
   int numberTypeTask = stoi (strNumberTypeTask);
@@ -76,14 +91,15 @@ public:
   char task = strTask [1];
   char typeTask = this -> typeTasks [numberTask];
   if (typeTask == task) {
-  
-    return true;
+
+  return true;
 
   }
 
   return false;
 
   }
+
 
   int print (std:: string msg) {
   std:: cout << "\n" << msg << "\n";
@@ -99,7 +115,7 @@ public:
 
     return 1;
 
-  }
+    }
 
   return 0;
 
@@ -110,8 +126,9 @@ public:
 int main () {
   ReaderTask readerTask;
   DecideTask decideTask;
-  std:: vector <std:: string> vec = readerTask. read ("./task.txt");
+  std:: vector <std:: string> vec = readerTask. read ("./data/task.txt");
   decideTask. run (vec);
 
   return 0;
+
 }
