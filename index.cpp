@@ -134,6 +134,8 @@ public:
 
     }
 
+  int result = (this ->*meths [numberTypeTask]) (vec [1]);
+
   return 0;
 
   }
