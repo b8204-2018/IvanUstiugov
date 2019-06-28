@@ -2,10 +2,11 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <math.h>
 
 class Reader {
   public:
-    virtual void read (void) = 0;
+    virtual void read (void) =  0;
 };
 
 class ReaderTask : Reader {
@@ -17,7 +18,7 @@ public:
     std:: string str;
     std:: getline (dataFile, str);
     if (str != "\0") {
-    vec. push_back (str);
+      vec. push_back (str);
     }
   }
   return vec;
@@ -25,7 +26,7 @@ public:
 };
 
 class Decider {
-private:
+  private:
   void degree (void) = 0;
   void amount (void) = 0;
   void subtraction (void) = 0;
@@ -40,7 +41,24 @@ public:
 class DecideTask : public Decider{
 private:
   std:: string typeTasks = "^+-*/";
-  int degree (std:: string *task) { return 0; }
+  int (DecideTask:: *meths [5]) (std:: string *) = {&DecideTask:: degree, &DecideTask:: amount, &DecideTask:: subtraction, &DecideTask:: multiplication, &DecideTask:: division};
+
+  int degree (std:: string *task) { // разделителем выступает "0"
+  int a = 1;
+  int b = stoi (task [2]);
+  int c = stoi (task [5]);
+  int d = (b*b) - (4 *a *c);
+  int sqD = sqrt (d);
+  int x1 = (b - (b*b)) + sqD;
+  int x1 = (b - (b*b)) - sqD;
+  std:: string result = std:: to_string (x1) + "0" std:: to_string (x2);
+  int res = stoi (result);
+
+  return  res;
+
+  }
+
+
   int amount (std:: string *task) {
   int item1 = stoi (task [0]);
   int item2 = stoi (task [2]);
@@ -49,6 +67,7 @@ private:
   return result;
 
   }
+
 
   int subtraction (std:: string *task) {
   int item1 = stoi (task [0]);
@@ -78,7 +97,6 @@ private:
 
   }
 
-
 public:
   int selectNumberTypeTask (std:: string &strNumberTypeTask) {
   int numberTypeTask = stoi (strNumberTypeTask);
@@ -100,7 +118,6 @@ public:
 
   }
 
-
   int print (std:: string msg) {
   std:: cout << "\n" << msg << "\n";
 
@@ -120,7 +137,6 @@ public:
   return 0;
 
   }
-
 };
 
 int main () {
@@ -130,5 +146,4 @@ int main () {
   decideTask. run (vec);
 
   return 0;
-
 }
